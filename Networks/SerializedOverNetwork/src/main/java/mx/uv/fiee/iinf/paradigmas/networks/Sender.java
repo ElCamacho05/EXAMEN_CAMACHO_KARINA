@@ -26,7 +26,7 @@ public class Sender {
 //        SocketUtils utils = new SocketUtils ();
 
         // set sender keys from valid certificate
-        System.setProperty("javax.net.ssl.keyStore", "C:\\Users\\camac\\Desktop\\UNI DOCS\\SEXTO SEMESTRE\\POO2\\EXAMEN_CAMACHO_XALANDA\\Networks\\SerializedOverNetwork\\src\\KEYS\\serverkey.jks");
+        System.setProperty("javax.net.ssl.keyStore", "Networks/SerializedOverNetwork/src/KEYS/serverkey.jks");
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
 
         SocketUtils sslSocket = new SocketUtils();

@@ -18,7 +18,7 @@ public class Receiver {
     public static void main(String[] args) {
 
         // change receiver settings on
-        System.setProperty("javax.net.ssl.trustStore", "C:\\Users\\camac\\Desktop\\UNI DOCS\\SEXTO SEMESTRE\\POO2\\EXAMEN_CAMACHO_XALANDA\\Networks\\SerializedOverNetwork\\src\\KEYS\\serverkey.jks");
+        System.setProperty("javax.net.ssl.trustStore", "Networks/SerializedOverNetwork/src/KEYS/serverkey.jks");
         System.setProperty("javax.net.ssl.trustStorePassword", "password");
 
         SocketUtils utils = new SocketUtils ("localhost", 19000);
