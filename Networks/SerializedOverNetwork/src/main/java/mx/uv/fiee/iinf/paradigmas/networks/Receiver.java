@@ -5,6 +5,8 @@ import java.net.Socket;
 import mx.uv.fiee.iinf.paradigmas.networks.models.Persona;
 import java.io.ObjectInputStream;
 
+import javax.net.ssl.*;
+
 /**
  * Clase principal que recibe objetos serializados desde un socket.
  */
@@ -14,6 +16,10 @@ public class Receiver {
      * Método principal que inicializa la conexión y recibe objetos.
      */
     public static void main(String[] args) {
+
+        // change receiver settings on
+        System.setProperty("javax.net.ssl.trustStore", "C:\\Users\\camac\\Desktop\\UNI DOCS\\SEXTO SEMESTRE\\POO2\\EXAMEN_CAMACHO_XALANDA\\Networks\\SerializedOverNetwork\\src\\KEYS\\serverkey.jks");
+        System.setProperty("javax.net.ssl.trustStorePassword", "password");
 
         SocketUtils utils = new SocketUtils ("localhost", 19000);
         utils.Receive ();
@@ -25,7 +31,7 @@ public class Receiver {
      */
     private static class SocketUtils {
 
-        private Socket socket;
+        private SSLSocket sslSocket;
 
         /**
          * Constructor que inicializa un socket cliente para conectarse a un servidor.
@@ -34,10 +40,13 @@ public class Receiver {
          */
         public SocketUtils (String address, int port) {
             try {
-                socket = new Socket (address, port);
+                // Crear SSLSocket
+                SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+                this.sslSocket = (SSLSocket) factory.createSocket(address, port);
+                System.out.println("Securely connected to " + address + ":" + port);
             } catch (IOException e) {
-                e.printStackTrace ();
-                throw new RuntimeException("Error creating socket");
+                e.printStackTrace();
+                throw new RuntimeException("An error occurred while connecting to " + address + ":" + port);
             }
         }
 
@@ -45,7 +54,7 @@ public class Receiver {
          * Método para recibir objetos serializados desde el socket.
          */
         public void Receive() {
-            try (ObjectInputStream ois = new ObjectInputStream (socket.getInputStream ())) {
+            try (ObjectInputStream ois = new ObjectInputStream (sslSocket.getInputStream ())) {
                 while (true) {
                     try {
                         Persona p = (Persona) ois.readObject (); // Deserialize Persona object
